@@ -206,13 +206,13 @@ with(this){return _c('h3',{attrs:{"id":"product-scope"}},[_v("Product scope"),_c
 with(this){return _c('p',[_c('strong',[_v("Target user profile")]),_v(":")])}
 },function anonymous(
 ) {
-with(this){return _c('ul',[_c('li',[_v("Manage a significant number of information about their suppliers")]),_v(" "),_c('li',[_v("Manage a significant number of information about their products")]),_v(" "),_c('li',[_v("Monitor the performance of their suppliers")]),_v(" "),_c('li',[_v("Maintain a streamline communication, ensuring smooth operations and minimizing errors in stock replenishment")]),_v(" "),_c('li',[_v("Regularly order products and prefer a user-friendly interface which could possibly automate their orders")]),_v(" "),_c('li',[_v("prefer a fast, efficient typing interface over mouse or voice commands")])])}
+with(this){return _c('ul',[_c('li',[_v("Manage a significant number of information about their suppliers and products")]),_v(" "),_c('li',[_v("Monitor the performance of their suppliers")]),_v(" "),_c('li',[_v("Maintain a streamline communication, ensuring smooth operations and minimizing errors in stock replenishment")]),_v(" "),_c('li',[_v("Regularly order products and prefer a user-friendly interface")]),_v(" "),_c('li',[_v("prefer a fast, efficient typing interface over mouse or voice commands")])])}
 },function anonymous(
 ) {
 with(this){return _c('p',[_c('strong',[_v("Value proposition")]),_v(":")])}
 },function anonymous(
 ) {
-with(this){return _c('ul',[_c('li',[_c('strong',[_v("Streamlined Supplier Management")]),_v(": The product simplifies managing relationships with multiple suppliers, providing tools to track orders, monitor supplier performance, and automate reordering.")]),_v(" "),_c('li',[_c('strong',[_v("Efficient Inventory Control")]),_v(": It offers features for real-time inventory tracking and automated reordering based on predefined thresholds, helping prevent stockouts and overstocking.")]),_v(" "),_c('li',[_c('strong',[_v("Performance Insights")]),_v(": The product provides analytics and performance metrics to evaluate supplier reliability and order accuracy, facilitating better decision-making.")])])}
+with(this){return _c('ul',[_c('li',[_c('strong',[_v("Streamlined Supplier Management")]),_v(": The product simplifies managing relationships with multiple suppliers, providing tools to track orders, and monitor supplier performance.")]),_v(" "),_c('li',[_c('strong',[_v("Efficient Inventory Control")]),_v(": It offers features for real-time inventory tracking and stock alerts based on predefined thresholds, helping prevent stockouts and overstocking.")]),_v(" "),_c('li',[_c('strong',[_v("Performance Insights")]),_v(": The product provides performance metrics to evaluate supplier reliability and order accuracy, facilitating better decision-making.")])])}
 },function anonymous(
 ) {
 with(this){return _c('h3',{attrs:{"id":"user-stories"}},[_v("User stories"),_c('a',{staticClass:"fa fa-anchor",attrs:{"href":"#user-stories","onclick":"event.stopPropagation()"}})])}
@@ -350,6 +350,6 @@ with(this){return _c('h3',{attrs:{"id":"saving-data"}},[_v("Saving data"),_c('a'
 with(this){return _c('ol',[_c('li',[_c('p',[_v("Dealing with missing/corrupted data files")]),_v(" "),_c('ol',[_c('li',[_c('em',[_v("{explain how to simulate a missing/corrupted file, and the expected behavior}")])])])]),_v(" "),_c('li',[_c('p',[_c('em',[_v("{ more test cases …​ }")])])])])}
 },function anonymous(
 ) {
-with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 5.5.3")]),_v(", generated on Fri, 4 Oct 2024, 12:42:18 GMT+8]")])])])}
+with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 5.5.3")]),_v(", generated on Fri, 4 Oct 2024, 18:18:22 GMT+8]")])])])}
 }];
   
