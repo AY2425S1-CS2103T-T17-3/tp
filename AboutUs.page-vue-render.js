@@ -62,6 +62,6 @@ with(this){return _c('p',[_v("["),_c('a',{attrs:{"href":"https://github.com/T1du
 with(this){return _c('ul',[_c('li',[_v("Role: Team Member")]),_v(" "),_c('li',[_v("Responsibilities: Code quality, Deliverables")])])}
 },function anonymous(
 ) {
-with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 5.5.3")]),_v(", generated on Thu, 17 Oct 2024, 22:13:58 GMT+8]")])])])}
+with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 5.5.3")]),_v(", generated on Thu, 17 Oct 2024, 23:07:36 GMT+8]")])])])}
 }];
   
