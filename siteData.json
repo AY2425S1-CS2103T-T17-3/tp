@@ -108,7 +108,7 @@
         "quick-start": "Quick start",
         "layout-default-md-title-and-quot-user-guide-and-quot-pagenav-3": "layout: default.md\ntitle: &quot;User Guide&quot;\npageNav: 3",
         "inventrack-user-guide": "InvenTrack User Guide",
-        "getting-started": "Getting Started",
+        "quickstart": "QuickStart",
         "step-1-install-java": "Step 1: Install Java",
         "step-2-download-inventrack": "Step 2: Download InvenTrack",
         "step-3-navigate-to-the-folder": "Step 3: Navigate to the Folder",
