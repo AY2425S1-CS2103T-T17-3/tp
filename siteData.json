@@ -117,7 +117,6 @@
         "features": "Features",
         "viewing-help-help": "Viewing help : help",
         "adding-a-supplier-add-supplier": "Adding a supplier: add_supplier",
-        "editing-a-supplier-edit": "Editing a supplier : edit",
         "deleting-a-supplier-delete": "Deleting a supplier : delete",
         "adding-a-product-add-product": "Adding a product : add_product",
         "assigning-a-product-to-supplier-assign": "Assigning a product to supplier: assign",
