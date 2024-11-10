@@ -159,6 +159,9 @@ Format: `delete_supplier n/SUPPLIER_NAME`
 Examples:
 *  `delete_supplier n/Global Produce` deletes the supplier named Global Produce from the tracker.
 
+Note:
+*  When deleting an existing supplier, any products that have been assigned this deleted supplier will have their assigned supplier removed. However, you will need to use the `view_product` command for the application to reflect this change.
+
 ### Adding a product : `add_product`
 
 Add a product.
