@@ -148,17 +148,16 @@ Examples:
 *  `edit_supplier 1 p/91234567 e/contact@freshfarms.com` Edits the phone number and email address of the 1st supplier to be `91234567` and `contact@freshfarms.com` respectively.
 *  `contact@freshfarms.com` Edits the name of the 2nd supplier to be `Global Produce` and clears all existing tags.
 
-### Deleting a supplier : `delete`
+### Deleting a supplier : `delete_supplier`
 Deletes the specified supplier from the address book.
 
-Format: `delete n/SUPPLIER_NAME`
+Format: `delete_supplier n/SUPPLIER_NAME`
 
 * Deletes the supplier of the specified `SUPPLIER_NAME`.
 * Supplier must exist in tracker for command to work.
 
 Examples:
-*  `delete n/Global Produce` deletes the supplier named Global Produce from the tracker.
-* `find Betsy` followed by `delete 1` deletes the 1st supplier in the results of the `find` command.
+*  `delete_supplier n/Global Produce` deletes the supplier named Global Produce from the tracker.
 
 ### Adding a product : `add_product`
 
