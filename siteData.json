@@ -123,7 +123,7 @@
         "autocomplete": "Autocomplete : 🤖",
         "adding-a-supplier-add-supplier": "Adding a supplier: add_supplier 🙋‍♂️🙋‍♀️",
         "adding-a-product-add-product": "Adding a product : add_product 🧶",
-        "assigning-a-product-to-supplier-assign": "Assigning a product to supplier: assign 🧋 ➡️ 🙋‍♀️",
+        "assigning-a-product-to-supplier-assign": "Assigning a product to supplier: assign ➡️ 🙋‍♀️",
         "un-assigning-a-product-to-supplier-unassign": "Un-assigning a product to supplier: unassign ❌ 🙋‍♀️",
         "setting-threshold-for-a-product-set-threshold": "Setting threshold for a product: set_threshold ➖➕",
         "updating-stock-level-for-a-product-update-stock": "Updating stock level for a product: update_stock 📈📦📉",
