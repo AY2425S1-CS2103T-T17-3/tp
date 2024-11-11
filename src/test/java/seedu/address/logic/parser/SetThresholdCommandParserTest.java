@@ -1,7 +1,9 @@
 package seedu.address.logic.parser;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_SYNTAX;
+import static seedu.address.logic.Messages.MESSAGE_MISSING_REQUIRED_PREFIXES;
+import static seedu.address.logic.Messages.MESSAGE_UNEXPECTED_PREAMBLE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MAX_STOCK_LEVEL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MIN_STOCK_LEVEL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PRODUCT_NAME;
@@ -56,7 +58,7 @@ public class SetThresholdCommandParserTest {
 
     @Test
     public void parse_compulsoryAndMissingField_failure() {
-        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+        String expectedMessage = String.format(MESSAGE_MISSING_REQUIRED_PREFIXES,
                 SetThresholdCommand.MESSAGE_USAGE);
 
         // missing product name prefix
@@ -81,22 +83,16 @@ public class SetThresholdCommandParserTest {
         assertParseFailure(parser, " pr/Product1 max/", "Stock level is empty, please provide a value.");
 
         // invalid product name
-        assertParseFailure(parser, " pr/Product#1 min/50", ProductName.MESSAGE_CONSTRAINTS);
+        assertParseFailure(parser, " pr/Product/ min/50",
+                String.format(MESSAGE_INVALID_SYNTAX, SetThresholdCommand.MESSAGE_USAGE));
 
         // invalid min stock level (non-numeric)
-        assertParseFailure(parser, " pr/Product1 min/abc",
+        assertParseFailure(parser, " pr/Product min/abc",
                 "Invalid stock level: Threshold levels should be positive integers.");
 
         // invalid max stock level (non-numeric)
-        assertParseFailure(parser, " pr/Product1 max/abc",
+        assertParseFailure(parser, " pr/Product max/abc",
                 "Invalid stock level: Threshold levels should be positive integers.");
-
-        // both invalid stock levels
-        assertParseFailure(parser, " pr/Product1 min/abc max/def",
-                "Invalid stock level: Threshold levels should be positive integers.");
-
-        // invalid product name and invalid stock levels
-        assertParseFailure(parser, " pr/Product#1 min/abc", ProductName.MESSAGE_CONSTRAINTS);
     }
 
     @Test
@@ -123,11 +119,11 @@ public class SetThresholdCommandParserTest {
     public void parse_invalidPreamble_failure() {
         // non-empty preamble
         assertParseFailure(parser, "some random string pr/Product1 min/50",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, SetThresholdCommand.MESSAGE_USAGE));
+                String.format(MESSAGE_UNEXPECTED_PREAMBLE, SetThresholdCommand.MESSAGE_USAGE));
 
         // preamble with numbers
         assertParseFailure(parser, "123 pr/Product1 min/50",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, SetThresholdCommand.MESSAGE_USAGE));
+                String.format(MESSAGE_UNEXPECTED_PREAMBLE, SetThresholdCommand.MESSAGE_USAGE));
     }
 
     @Test

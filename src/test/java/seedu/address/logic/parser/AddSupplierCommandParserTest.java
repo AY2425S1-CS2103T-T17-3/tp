@@ -1,6 +1,8 @@
 package seedu.address.logic.parser;
 
-import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_SYNTAX;
+import static seedu.address.logic.Messages.MESSAGE_MISSING_REQUIRED_PREFIXES;
+import static seedu.address.logic.Messages.MESSAGE_UNEXPECTED_PREAMBLE;
 import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
@@ -39,7 +41,6 @@ import seedu.address.logic.Messages;
 import seedu.address.logic.commands.AddSupplierCommand;
 import seedu.address.model.supplier.Address;
 import seedu.address.model.supplier.Email;
-import seedu.address.model.supplier.Name;
 import seedu.address.model.supplier.Phone;
 import seedu.address.model.supplier.Supplier;
 import seedu.address.model.tag.Tag;
@@ -96,7 +97,7 @@ public class AddSupplierCommandParserTest {
 
         // invalid name
         assertParseFailure(parser, INVALID_NAME_DESC + validExpectedSupplierString,
-                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NAME));
+                String.format(MESSAGE_INVALID_SYNTAX, AddSupplierCommand.MESSAGE_USAGE));
 
         // invalid email
         assertParseFailure(parser, INVALID_EMAIL_DESC + validExpectedSupplierString,
@@ -114,7 +115,7 @@ public class AddSupplierCommandParserTest {
 
         // invalid name
         assertParseFailure(parser, validExpectedSupplierString + INVALID_NAME_DESC,
-                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NAME));
+                String.format(MESSAGE_INVALID_SYNTAX, AddSupplierCommand.MESSAGE_USAGE));
 
         // invalid email
         assertParseFailure(parser, validExpectedSupplierString + INVALID_EMAIL_DESC,
@@ -139,7 +140,7 @@ public class AddSupplierCommandParserTest {
 
     @Test
     public void parse_compulsoryFieldMissing_failure() {
-        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddSupplierCommand.MESSAGE_USAGE);
+        String expectedMessage = String.format(MESSAGE_MISSING_REQUIRED_PREFIXES, AddSupplierCommand.MESSAGE_USAGE);
 
         // missing name prefix
         assertParseFailure(parser, VALID_NAME_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB,
@@ -166,7 +167,8 @@ public class AddSupplierCommandParserTest {
     public void parse_invalidValue_failure() {
         // invalid name
         assertParseFailure(parser, INVALID_NAME_DESC + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
-                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Name.MESSAGE_CONSTRAINTS);
+                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
+                String.format(MESSAGE_INVALID_SYNTAX, AddSupplierCommand.MESSAGE_USAGE));
 
         // invalid phone
         assertParseFailure(parser, NAME_DESC_BOB + INVALID_PHONE_DESC + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
@@ -174,7 +176,7 @@ public class AddSupplierCommandParserTest {
 
         // invalid email
         assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + INVALID_EMAIL_DESC + ADDRESS_DESC_BOB
-                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Email.MESSAGE_CONSTRAINTS);
+                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Email.getDetailedErrorMessage(INVALID_EMAIL_DESC));
 
         // invalid address
         assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + INVALID_ADDRESS_DESC
@@ -186,11 +188,11 @@ public class AddSupplierCommandParserTest {
 
         // two invalid values, only first invalid value reported
         assertParseFailure(parser, INVALID_NAME_DESC + PHONE_DESC_BOB + EMAIL_DESC_BOB + INVALID_ADDRESS_DESC,
-                Name.MESSAGE_CONSTRAINTS);
+                String.format(MESSAGE_INVALID_SYNTAX, AddSupplierCommand.MESSAGE_USAGE));
 
         // non-empty preamble
         assertParseFailure(parser, PREAMBLE_NON_EMPTY + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
                 + ADDRESS_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddSupplierCommand.MESSAGE_USAGE));
+                String.format(MESSAGE_UNEXPECTED_PREAMBLE, AddSupplierCommand.MESSAGE_USAGE));
     }
 }

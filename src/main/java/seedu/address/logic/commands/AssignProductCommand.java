@@ -3,10 +3,10 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PRODUCT_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SUPPLIER_NAME;
+import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PRODUCTS;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_SUPPLIERS;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -52,50 +52,64 @@ public class AssignProductCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<Supplier> lastShownSupplierList = model.getFilteredSupplierList();
-        List<Product> lastShownProductList = model.getFilteredProductList();
 
-        // Check if supplier exists in supplier list
-        Supplier supplierToAssign = lastShownSupplierList.stream()
-                .filter(supplier -> supplier.getName().equals(supplierName))
-                .findFirst()
-                .orElseThrow(() -> new CommandException(String.format(MESSAGE_SUPPLIER_NOT_FOUND, supplierName)));
-
-        // Check if product exists in product list
-        Product productToAssign = lastShownProductList.stream()
-                .filter(product -> product.getName().equals(productName))
-                .findFirst()
-                .orElseThrow(() -> new CommandException(String.format(MESSAGE_PRODUCT_NOT_FOUND, productName)));
-
-        // Check if product is assigned to another supplier
-        if (productToAssign.getSupplierName() != null && !productToAssign.getSupplierName().equals(supplierName)) {
-            throw new CommandException(String.format(MESSAGE_PRODUCT_ALREADY_ASSIGNED_TO_OTHER,
-                    productToAssign.getSupplierName()));
-        }
-
-        // Check if product is already assigned to the specified supplier
-        if (supplierToAssign.getProducts().contains(productToAssign)) {
-            throw new CommandException(MESSAGE_PRODUCT_ALREADY_ASSIGNED);
-        }
-
-        // Create a new supplier with the updated product list
-        Set<Product> updatedProductList = new HashSet<>(supplierToAssign.getProducts());
-        updatedProductList.add(productToAssign);
-        Supplier updatedSupplier = new Supplier(
-                supplierToAssign.getName(),
-                supplierToAssign.getPhone(),
-                supplierToAssign.getEmail(),
-                supplierToAssign.getAddress(),
-                supplierToAssign.getTags(),
-                updatedProductList
-        );
-        // Update the product to contain the supplierName too
-        productToAssign.setSupplierName(supplierName);
-
-        model.setSupplier(supplierToAssign, updatedSupplier);
+        Product productToAssign = findProductByName(model, productName);
+        Supplier supplierToAssign = findSupplierByName(model, supplierName);
+        checkProductAssignmentStatus(model, productToAssign, supplierToAssign);
+        assignProductToSupplier(model, supplierToAssign, productToAssign);
         model.updateFilteredSupplierList(PREDICATE_SHOW_ALL_SUPPLIERS);
+        model.updateFilteredProductList(PREDICATE_SHOW_ALL_PRODUCTS);
         return new CommandResult(String.format(MESSAGE_SUCCESS, productToAssign.getName(), supplierToAssign.getName()));
     }
+    private Product findProductByName(Model model, ProductName productName) throws CommandException {
+        Product product = model.findProductByName(productName);
+        if (product == null) {
+            throw new CommandException(String.format(MESSAGE_PRODUCT_NOT_FOUND, productName));
+        }
+        return product;
+    }
+
+    private Supplier findSupplierByName(Model model, Name supplierName) throws CommandException {
+        Supplier supplier = model.findSupplier(supplierName);
+        if (supplier == null) {
+            throw new CommandException(String.format(MESSAGE_SUPPLIER_NOT_FOUND, supplierName));
+        }
+        return supplier;
+    }
+
+    private void checkProductAssignmentStatus(Model model, Product product, Supplier supplier) throws CommandException {
+        Name supplierName = product.getSupplierName();
+        if (supplierName == null) {
+            assert !model.isProductAssignedToAnySupplier(product)
+                    : "Product with null supplier name should not be assigned to any supplier";
+        } else {
+            assert model.isProductAssignedToAnySupplier(product)
+                    : "Product with non-null supplier name should be assigned to a supplier";
+        }
+        if (product.getSupplierName() != null && !product.getSupplierName().equals(supplier.getName())) {
+            throw new CommandException(String.format(MESSAGE_PRODUCT_ALREADY_ASSIGNED_TO_OTHER,
+                    product.getSupplierName()));
+        }
+        if (supplier.getProducts().contains(product)) {
+            throw new CommandException(MESSAGE_PRODUCT_ALREADY_ASSIGNED);
+        }
+    }
+
+    private void assignProductToSupplier(Model model, Supplier supplier, Product product) {
+        Set<Product> updatedProductList = new HashSet<>(supplier.getProducts());
+        updatedProductList.add(product);
+
+        Product updatedProduct = new Product(product.getName(), product.getStockLevel(), product.getTags());
+        updatedProduct.setSupplierName(supplier.getName());
+
+        Supplier updatedSupplier = new Supplier(
+                supplier.getName(), supplier.getPhone(), supplier.getEmail(),
+                supplier.getAddress(), supplier.getTags(), updatedProductList);
+
+        model.setProduct(product, updatedProduct);
+        model.setSupplier(supplier, updatedSupplier);
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == this) {

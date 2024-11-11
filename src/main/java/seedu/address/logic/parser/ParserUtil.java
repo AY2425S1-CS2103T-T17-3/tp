@@ -1,9 +1,14 @@
 package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_SYNTAX;
+import static seedu.address.logic.Messages.MESSAGE_MISSING_REQUIRED_PREFIXES;
+import static seedu.address.logic.Messages.MESSAGE_UNEXPECTED_PREAMBLE;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import seedu.address.commons.core.index.Index;
@@ -48,8 +53,9 @@ public class ParserUtil {
         if (!Name.isValidName(trimmedName)) {
             throw new ParseException(Name.MESSAGE_CONSTRAINTS);
         }
-        return new Name(trimmedName);
+        return new Name(name);
     }
+
 
     /**
      * Parses a {@code String name} into a {@code Name}.
@@ -63,7 +69,7 @@ public class ParserUtil {
         if (!ProductName.isValidName(trimmedName)) {
             throw new ParseException(Name.MESSAGE_CONSTRAINTS);
         }
-        return new ProductName(trimmedName);
+        return new ProductName(name);
     }
 
     /**
@@ -106,7 +112,7 @@ public class ParserUtil {
         requireNonNull(email);
         String trimmedEmail = email.trim();
         if (!Email.isValidEmail(trimmedEmail)) {
-            throw new ParseException(Email.MESSAGE_CONSTRAINTS);
+            throw new ParseException(Email.getDetailedErrorMessage(email));
         }
         return new Email(trimmedEmail);
     }
@@ -149,5 +155,51 @@ public class ParserUtil {
         requireNonNull(num);
         String trimmedNum = num.trim();
         return Integer.parseInt(trimmedNum);
+    }
+
+    /**
+     * Verifies the input for command parsers to ensure no duplicates, unexpected preamble content,
+     * missing required prefixes, and no extra prefixes.
+     *
+     * @param argMultimap       ArgumentMultimap containing the parsed arguments.
+     * @param requiredPrefixes  Required prefixes that must be present.
+     * @param commandUsage      Command usage information to show in error messages.
+     * @throws ParseException   If there is an issue with the input format.
+     */
+    public static void verifyInput(ArgumentMultimap argMultimap, Prefix[] requiredPrefixes, String commandUsage)
+            throws ParseException {
+        // Check if required prefixes are present
+        if (!arePrefixesPresent(argMultimap, requiredPrefixes)) {
+            throw new ParseException(String.format(MESSAGE_MISSING_REQUIRED_PREFIXES, commandUsage));
+        }
+        // Check for preamble content
+        if (!argMultimap.getPreamble().isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_UNEXPECTED_PREAMBLE, commandUsage));
+        }
+        // Check for extra prefixes
+        if (hasExtraPrefixes(argMultimap)) {
+            throw new ParseException(String.format(MESSAGE_INVALID_SYNTAX, commandUsage));
+        }
+    }
+
+    // Helper methods for verifying presence and extra prefixes
+    private static boolean arePrefixesPresent(ArgumentMultimap argMultimap, Prefix... prefixes) {
+        return Arrays.stream(prefixes).allMatch(prefix -> argMultimap.getValue(prefix).isPresent());
+    }
+
+    private static boolean hasExtraPrefixes(ArgumentMultimap argMultimap) {
+        Set<Prefix> presentPrefixes = argMultimap.getAllPrefixes();
+
+        for (Prefix prefix : presentPrefixes) {
+            List<String> values = argMultimap.getAllValues(prefix);
+
+            // Check if any value contains an extra "/" which may indicate an extra prefix
+            for (String value : values) {
+                if (value.contains("/")) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

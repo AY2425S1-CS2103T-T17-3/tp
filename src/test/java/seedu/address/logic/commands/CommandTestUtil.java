@@ -54,7 +54,7 @@ public class CommandTestUtil {
     public static final String ADDRESS_DESC_BOB = " " + PREFIX_ADDRESS + VALID_ADDRESS_BOB;
     public static final String TAG_DESC_FRIEND = " " + PREFIX_TAG + VALID_TAG_FRIEND;
     public static final String TAG_DESC_HUSBAND = " " + PREFIX_TAG + VALID_TAG_HUSBAND;
-    public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "James&"; // '&' not allowed in names
+    public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "Molly/James"; // '&' not allowed in names
     public static final String INVALID_PHONE_DESC = " " + PREFIX_PHONE + "911a"; // 'a' not allowed in phones
     public static final String INVALID_EMAIL_DESC = " " + PREFIX_EMAIL + "bob!yahoo"; // missing '@' symbol
     public static final String INVALID_ADDRESS_DESC = " " + PREFIX_ADDRESS; // empty string not allowed for addresses
@@ -112,24 +112,24 @@ public class CommandTestUtil {
         // we are unable to defensively copy the model for comparison later, so we can
         // only do so by copying its components.
         AddressBook expectedAddressBook = new AddressBook(actualModel.getAddressBook());
-        List<Supplier> expectedFilteredList = new ArrayList<>(actualModel.getFilteredSupplierList());
+        List<Supplier> expectedFilteredList = new ArrayList<>(actualModel.getModifiedSupplierList());
 
         assertThrows(CommandException.class, expectedMessage, () -> command.execute(actualModel));
         assertEquals(expectedAddressBook, actualModel.getAddressBook());
-        assertEquals(expectedFilteredList, actualModel.getFilteredSupplierList());
+        assertEquals(expectedFilteredList, actualModel.getModifiedSupplierList());
     }
     /**
      * Updates {@code model}'s filtered list to show only the supplier at the given {@code targetIndex} in the
      * {@code model}'s address book.
      */
     public static void showSupplierAtIndex(Model model, Index targetIndex) {
-        assertTrue(targetIndex.getZeroBased() < model.getFilteredSupplierList().size());
+        assertTrue(targetIndex.getZeroBased() < model.getModifiedSupplierList().size());
 
-        Supplier supplier = model.getFilteredSupplierList().get(targetIndex.getZeroBased());
+        Supplier supplier = model.getModifiedSupplierList().get(targetIndex.getZeroBased());
         final String[] splitName = supplier.getName().fullName.split("\\s+");
         model.updateFilteredSupplierList(new NameContainsKeywordsPredicate(Arrays.asList(splitName[0])));
 
-        assertEquals(1, model.getFilteredSupplierList().size());
+        assertEquals(1, model.getModifiedSupplierList().size());
     }
 
 }

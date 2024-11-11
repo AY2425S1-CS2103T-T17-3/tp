@@ -1,15 +1,13 @@
 package seedu.address.logic.parser;
 
-import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MAX_STOCK_LEVEL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MIN_STOCK_LEVEL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PRODUCT_SUPPLIER_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STOCK_LEVEL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_SUPPLIER_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Set;
-import java.util.stream.Stream;
 
 import seedu.address.logic.commands.AddProductCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -43,14 +41,10 @@ public class AddProductCommandParser implements Parser<AddProductCommand> {
                 PREFIX_STOCK_LEVEL,
                 PREFIX_MIN_STOCK_LEVEL,
                 PREFIX_MAX_STOCK_LEVEL,
-                PREFIX_PRODUCT_SUPPLIER_NAME,
+                PREFIX_SUPPLIER_NAME,
                 PREFIX_TAG);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_NAME)
-                || !argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(
-                    MESSAGE_INVALID_COMMAND_FORMAT, AddProductCommand.MESSAGE_USAGE));
-        }
+        ParserUtil.verifyInput(argMultimap, new Prefix[]{PREFIX_NAME}, AddProductCommand.MESSAGE_USAGE);
 
         // Ensure no duplicate prefixes are used
         argMultimap.verifyNoDuplicatePrefixesFor(
@@ -58,7 +52,7 @@ public class AddProductCommandParser implements Parser<AddProductCommand> {
                 PREFIX_STOCK_LEVEL,
                 PREFIX_MIN_STOCK_LEVEL,
                 PREFIX_MAX_STOCK_LEVEL,
-                PREFIX_PRODUCT_SUPPLIER_NAME);
+                PREFIX_SUPPLIER_NAME);
 
         ProductName name = ParserUtil.parseProductName(argMultimap.getValue(PREFIX_NAME).get());
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
@@ -96,9 +90,9 @@ public class AddProductCommandParser implements Parser<AddProductCommand> {
         Product product = new Product(name, stockLevelObj, tagList);
 
         // Set supplier name if present
-        if (argMultimap.getValue(PREFIX_PRODUCT_SUPPLIER_NAME).isPresent()) {
+        if (argMultimap.getValue(PREFIX_SUPPLIER_NAME).isPresent()) {
             Name supplierName = ParserUtil.parseName(
-                    argMultimap.getValue(PREFIX_PRODUCT_SUPPLIER_NAME).get());
+                    argMultimap.getValue(PREFIX_SUPPLIER_NAME).get());
             product.setSupplierName(supplierName);
         }
 
@@ -122,15 +116,5 @@ public class AddProductCommandParser implements Parser<AddProductCommand> {
         } catch (NumberFormatException e) {
             throw new ParseException(MESSAGE_INVALID_STOCK_LEVEL);
         }
-    }
-
-    /**
-     * Returns true if the specified prefixes contain non-empty values in the given
-     * {@code ArgumentMultimap}.
-     */
-    private static boolean arePrefixesPresent(
-            ArgumentMultimap argumentMultimap, Prefix... prefixes) {
-        return Stream.of(prefixes)
-                .allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
 }

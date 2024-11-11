@@ -10,6 +10,7 @@ import static seedu.address.testutil.TypicalSuppliers.ALICE;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -105,11 +106,13 @@ public class AddSupplierCommandTest {
 
         @Override
         public boolean hasProduct(Product product) {
-            return true;
+            throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void addProduct(Product product){}
+        public void addProduct(Product product) {
+            throw new AssertionError("This method should not be called.");
+        }
 
         @Override
         public ReadOnlyUserPrefs getUserPrefs() {
@@ -177,7 +180,7 @@ public class AddSupplierCommandTest {
         }
 
         @Override
-        public ObservableList<Supplier> getFilteredSupplierList() {
+        public ObservableList<Supplier> getModifiedSupplierList() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -186,12 +189,17 @@ public class AddSupplierCommandTest {
             throw new AssertionError("This method should not be called.");
         }
         @Override
-        public ObservableList<Product> getFilteredProductList() {
+        public ObservableList<Product> getModifiedProductList() {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
         public void updateFilteredProductList(Predicate<Product> predicate) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void updateSortedProductList(Comparator<Product> predicate) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -203,6 +211,10 @@ public class AddSupplierCommandTest {
         @Override
         public Supplier findSupplier(Name supplierName) {
             return null;
+        }
+        @Override
+        public boolean isProductAssignedToAnySupplier(Product product) {
+            throw new AssertionError("This method should not be called.");
         }
     }
 
